@@ -14,14 +14,6 @@ type UserInputNumbers = {
   duration: number
 }
 
-type ResultRow = {
-  year: number,
-  investmentValue: number,
-  interest: number,
-  totalInterest: number,
-  investedCapital: number
-}
-
 export default function Result({userInputData}: ResultProps) {
   function getValueAsNumber(value: string) : number {
     return (!value) ? 0 : parseFloat(value);
@@ -38,27 +30,7 @@ export default function Result({userInputData}: ResultProps) {
     return(inputNumbers);
   }
 
-  function calculateResult(): ResultRow[] {
-    const investmentResults = calculateInvestmentResults(convertDataToNumbers());
-    const results: ResultRow[] = [];
-
-    let totalInterest = 0;
-    let investedCapital = 0;
-    for (let i = 0; i < investmentResults.length; i++) {
-      totalInterest += investmentResults[i].interest;
-      investedCapital += investmentResults[i].annualInvestment;
-
-      results.push({
-        year: investmentResults[i].year,
-        investmentValue: investmentResults[i].valueEndOfYear,
-        interest: investmentResults[i].interest,
-        totalInterest: totalInterest,
-        investedCapital: investedCapital
-      })
-    }
-
-    return results;
-  }
+  const data = convertDataToNumbers();
 
   return (
     <table id="result">
@@ -70,15 +42,20 @@ export default function Result({userInputData}: ResultProps) {
           </tr>
         </thead>
         <tbody>
-          {calculateResult().map(dataRow => (
-            <tr key={dataRow.year}>
+          {calculateInvestmentResults(data).map(dataRow => {
+            const totalInterest = dataRow.valueEndOfYear - (data.annualInvestment * dataRow.year) - data.initialInvestment;
+            const totalInvestment = data.initialInvestment + (data.annualInvestment * dataRow.year);
+            
+            return(
+              <tr key={dataRow.year}>
               <td>{dataRow.year}</td>
-              <td>{formatter.format(dataRow.investmentValue)}</td>
+              <td>{formatter.format(dataRow.valueEndOfYear)}</td>
               <td>{formatter.format(dataRow.interest)}</td>
-              <td>{formatter.format(dataRow.totalInterest)}</td>
-              <td>{formatter.format(dataRow.investedCapital)}</td>
+              <td>{formatter.format(totalInterest)}</td>
+              <td>{formatter.format(totalInvestment)}</td>
             </tr>
-          ))}
+            );
+          })}
         </tbody>
       </table>
   );
