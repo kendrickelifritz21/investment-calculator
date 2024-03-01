@@ -16,8 +16,6 @@ interface UserInputProps {
 }
 
 export default function UserInput({onInputDataChange, userInputData}: UserInputProps) {
-  const [data, setData] = useState<UserInputData>(userInputData);
-
   function handleChange(inputField: string, currentValue: string, re: RegExp, event: React.ChangeEvent<HTMLInputElement>) {
     const value = event.target.value;
 
@@ -25,13 +23,6 @@ export default function UserInput({onInputDataChange, userInputData}: UserInputP
     if (value) {
       validatedValue = re.test(value) ? value : currentValue;
     }
-
-    setData(prevData => {
-      return {
-        ...prevData,
-        [inputField]: validatedValue
-      };
-    });
 
     onInputDataChange(inputField, validatedValue);
   }
@@ -41,28 +32,28 @@ export default function UserInput({onInputDataChange, userInputData}: UserInputP
       <div className="input-group">
         <p>
           <label>Initial Investment</label>
-          <input required value={data.initialInvestment} type="text" 
-            onChange={(event) => handleChange("initialInvestment", data.initialInvestment, decimalRegex, event)}>
+          <input required value={userInputData.initialInvestment} type="text" 
+            onChange={(event) => handleChange("initialInvestment", userInputData.initialInvestment, decimalRegex, event)}>
           </input>
         </p>
         <p>
           <label>Annual Investment</label>
-          <input required value={data.annualInvestment} type="text"
-            onChange={(event) => handleChange("annualInvestment", data.annualInvestment, decimalRegex, event)}>
+          <input required value={userInputData.annualInvestment} type="text"
+            onChange={(event) => handleChange("annualInvestment", userInputData.annualInvestment, decimalRegex, event)}>
           </input>
         </p>
       </div>
       <div className="input-group">
         <p>
           <label>Expected Return</label>
-          <input required value={data.expectedReturn} type="text"
-            onChange={(event) => handleChange("expectedReturn", data.expectedReturn, decimalRegex, event)}>
+          <input required value={userInputData.expectedReturn} type="text"
+            onChange={(event) => handleChange("expectedReturn", userInputData.expectedReturn, decimalRegex, event)}>
           </input>
         </p>
         <p>
           <label>Duration</label>
-          <input required value={data.duration} type="text"
-            onChange={(event) => handleChange("duration", data.duration, intRegex, event)}>
+          <input required value={userInputData.duration} type="text"
+            onChange={(event) => handleChange("duration", userInputData.duration, intRegex, event)}>
           </input>
         </p>
       </div>
