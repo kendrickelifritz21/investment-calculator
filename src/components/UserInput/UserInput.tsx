@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 const intRegex = /^-?\d+$/;
 const decimalRegex = /^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$/;
 
