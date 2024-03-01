@@ -42,7 +42,7 @@ export default function UserInput({onInputDataChange, userInputData}: UserInputP
         <p>
           <label>Initial Investment</label>
           <input required value={data.initialInvestment} type="text" 
-            onChange={(event) => handleChange("initialInvestment", data.initialInvestment, intRegex, event)}>
+            onChange={(event) => handleChange("initialInvestment", data.initialInvestment, decimalRegex, event)}>
           </input>
         </p>
         <p>
