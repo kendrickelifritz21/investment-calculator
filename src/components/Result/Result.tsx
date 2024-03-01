@@ -71,7 +71,7 @@ export default function Result({userInputData}: ResultProps) {
         </thead>
         <tbody>
           {calculateResult().map(dataRow => (
-            <tr>
+            <tr key={dataRow.year}>
               <td>{dataRow.year}</td>
               <td>{formatter.format(dataRow.investmentValue)}</td>
               <td>{formatter.format(dataRow.interest)}</td>
